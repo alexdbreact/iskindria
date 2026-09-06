@@ -12,7 +12,9 @@ import {
   Volume2,
   VolumeX,
   Maximize,
-  Bot
+  Bot,
+  AlertCircle,
+  Sparkles
 } from 'lucide-react';
 import LighthouseIcon from '@/components/LighthouseIcon';
 
@@ -27,19 +29,32 @@ export default function VideoModal({
 }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [showPlaylistDrawer, setShowPlaylistDrawer] = useState(true);
+  const [useFallback, setUseFallback] = useState(false);
+  const [hasPlaybackError, setHasPlaybackError] = useState(false);
   const videoRef = useRef(null);
 
-  // Reset to first video on modal open
+  // Reset states on modal open
   useEffect(() => {
     if (isOpen) {
       setCurrentIdx(0);
+      setUseFallback(false);
+      setHasPlaybackError(false);
     }
   }, [isOpen]);
 
-  const currentVideo = videos[currentIdx] || videos[0] || {
-    title: 'Alexandria, Egypt',
-    src: '/video/Alexandria%20%2C%20Egypt%20%F0%9F%87%AA%F0%9F%87%AC-%20by%20drone%20%5B4K%5D.mp4'
-  };
+  const safeVideos = videos && videos.length > 0 ? videos : [
+    {
+      title: 'Alexandria Cinematic Experience',
+      subtitle: 'Immersive exploration of Alexandria, Egypt',
+      src: '/title.mp4',
+      fallbackSrc: '/title.mp4',
+      filename: 'title.mp4',
+      poster: '/images/q.jpg'
+    }
+  ];
+
+  const currentVideo = safeVideos[currentIdx] || safeVideos[0];
+  const activeSrc = useFallback ? (currentVideo.fallbackSrc || '/title.mp4') : (currentVideo.src || '/title.mp4');
 
   // Keyboard navigation
   useEffect(() => {
@@ -55,25 +70,42 @@ export default function VideoModal({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, videos.length, currentIdx]);
+  }, [isOpen, safeVideos.length, currentIdx]);
 
   // Video autoplay when current video changes
   useEffect(() => {
     if (isOpen && videoRef.current) {
+      setHasPlaybackError(false);
       videoRef.current.load();
-      videoRef.current.play().catch(e => console.log('Video play catch:', e));
+      videoRef.current.play().catch(e => {
+        console.log('Autoplay handled gracefully:', e);
+      });
     }
-  }, [currentIdx, isOpen]);
+  }, [currentIdx, isOpen, activeSrc]);
+
+  const handleVideoError = () => {
+    if (!useFallback && (currentVideo.fallbackSrc || '/title.mp4') !== currentVideo.src) {
+      console.warn('Primary video failed, trying fallback stream:', currentVideo.title);
+      setUseFallback(true);
+    } else {
+      console.warn('Video playback error for:', currentVideo.title);
+      setHasPlaybackError(true);
+    }
+  };
 
   const handleNext = useCallback(() => {
-    if (videos.length <= 1) return;
-    setCurrentIdx(prev => (prev + 1) % videos.length);
-  }, [videos.length]);
+    if (safeVideos.length <= 1) return;
+    setUseFallback(false);
+    setHasPlaybackError(false);
+    setCurrentIdx(prev => (prev + 1) % safeVideos.length);
+  }, [safeVideos.length]);
 
   const handlePrev = useCallback(() => {
-    if (videos.length <= 1) return;
-    setCurrentIdx(prev => (prev - 1 + videos.length) % videos.length);
-  }, [videos.length]);
+    if (safeVideos.length <= 1) return;
+    setUseFallback(false);
+    setHasPlaybackError(false);
+    setCurrentIdx(prev => (prev - 1 + safeVideos.length) % safeVideos.length);
+  }, [safeVideos.length]);
 
   if (!isOpen) return null;
 
@@ -107,7 +139,7 @@ export default function VideoModal({
                     ? 'bg-purple-400/10 text-purple-300 border-purple-400/30'
                     : 'bg-amber-400/10 text-amber-300 border-amber-400/20'
                 }`}>
-                  {isAiMode ? 'AI Generated' : `${currentIdx + 1} / ${videos.length} ${t?.tracksCount || 'Videos'}`}
+                  {isAiMode ? 'AI Generated' : `${currentIdx + 1} / ${safeVideos.length} ${t?.tracksCount || 'Videos'}`}
                 </span>
               </div>
               <p className="text-[11px] sm:text-xs text-neutral-400 font-light truncate max-w-xs sm:max-w-md">
@@ -118,10 +150,10 @@ export default function VideoModal({
 
           <div className="flex items-center gap-2">
             {/* Toggle Playlist Button */}
-            {videos.length > 1 && (
+            {safeVideos.length > 1 && (
               <button
                 onClick={() => setShowPlaylistDrawer(prev => !prev)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                   showPlaylistDrawer
                     ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40'
                     : 'bg-white/5 text-neutral-400 hover:text-white border border-white/10'
@@ -149,24 +181,56 @@ export default function VideoModal({
         <div className="relative flex-1 flex flex-col lg:flex-row overflow-hidden min-h-[300px] sm:min-h-[420px] bg-black">
           {/* Main Video Box */}
           <div className="relative flex-1 bg-neutral-950 flex items-center justify-center overflow-hidden">
-            <video
-              ref={videoRef}
-              src={currentVideo.src}
-              controls
-              autoPlay
-              playsInline
-              onEnded={handleNext}
-              className="w-full h-full max-h-[65vh] object-contain"
-            >
-              Your browser does not support video playback.
-            </video>
+            {!hasPlaybackError ? (
+              <video
+                ref={videoRef}
+                src={activeSrc}
+                poster={currentVideo.poster || '/images/q.jpg'}
+                controls
+                autoPlay
+                playsInline
+                onError={handleVideoError}
+                onEnded={handleNext}
+                className="w-full h-full max-h-[65vh] object-contain"
+              >
+                Your browser does not support video playback.
+              </video>
+            ) : (
+              /* High-end fallback preview card if both local and fallback streams fail */
+              <div className="relative w-full h-full min-h-[350px] flex flex-col items-center justify-center p-8 text-center bg-gradient-to-b from-[#16121D] to-[#0A080F]">
+                {currentVideo.poster && (
+                  <div className="absolute inset-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: `url(${currentVideo.poster})` }} />
+                )}
+                <div className="relative z-10 space-y-3 max-w-md">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center mx-auto border border-amber-400/30 shadow-lg">
+                    <Sparkles className="w-6 h-6 animate-pulse" />
+                  </div>
+                  <h4 className="font-cinzel text-lg font-bold text-white">
+                    {currentVideo.title}
+                  </h4>
+                  <p className="text-xs text-neutral-400 leading-relaxed">
+                    {currentVideo.subtitle || 'High-definition showcase video of Alexandria'}
+                  </p>
+                  <button
+                    onClick={() => {
+                      setUseFallback(true);
+                      setHasPlaybackError(false);
+                    }}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-amber-500 to-amber-400 text-neutral-950 font-cinzel text-xs font-bold uppercase tracking-wider hover:scale-105 transition-all cursor-pointer shadow-lg mt-2"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <span>Play Ambient Stream</span>
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Floating Navigation Controls on hover */}
-            {videos.length > 1 && (
+            {safeVideos.length > 1 && (
               <>
                 <button
                   onClick={handlePrev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-all hover:scale-110 active:scale-95 shadow-2xl opacity-75 hover:opacity-100"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-all hover:scale-110 active:scale-95 shadow-2xl opacity-75 hover:opacity-100 cursor-pointer"
                   title={t?.previousTrack || 'Previous Video'}
                 >
                   <ChevronLeft className="w-5 h-5" />
@@ -174,7 +238,7 @@ export default function VideoModal({
 
                 <button
                   onClick={handleNext}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-all hover:scale-110 active:scale-95 shadow-2xl opacity-75 hover:opacity-100"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center backdrop-blur-md border border-white/15 transition-all hover:scale-110 active:scale-95 shadow-2xl opacity-75 hover:opacity-100 cursor-pointer"
                   title={t?.nextTrack || 'Next Video'}
                 >
                   <ChevronRight className="w-5 h-5" />
@@ -184,25 +248,29 @@ export default function VideoModal({
           </div>
 
           {/* Side Playlist Drawer */}
-          {showPlaylistDrawer && videos.length > 1 && (
+          {showPlaylistDrawer && safeVideos.length > 1 && (
             <div className="w-full lg:w-80 max-h-48 lg:max-h-[65vh] overflow-y-auto bg-[#120F17]/90 border-t lg:border-t-0 lg:border-l border-white/10 p-3 sm:p-4 custom-scrollbar flex flex-col gap-2">
               <div className="flex items-center justify-between pb-2 border-b border-white/10 text-xs font-semibold text-neutral-300">
                 <span className="uppercase font-mono tracking-wider text-[11px] text-amber-300">
-                  {t?.playlist || 'Video Playlist'} ({videos.length})
+                  {t?.playlist || 'Video Playlist'} ({safeVideos.length})
                 </span>
                 <span className="text-[10px] text-neutral-400 font-mono">
-                  {currentIdx + 1} / {videos.length}
+                  {currentIdx + 1} / {safeVideos.length}
                 </span>
               </div>
 
               <div className="space-y-1.5 flex-1">
-                {videos.map((vid, index) => {
+                {safeVideos.map((vid, index) => {
                   const isSelected = index === currentIdx;
                   return (
                     <button
                       key={index}
-                      onClick={() => setCurrentIdx(index)}
-                      className={`w-full text-left p-2.5 rounded-xl text-xs flex items-start gap-2.5 transition-all ${
+                      onClick={() => {
+                        setUseFallback(false);
+                        setHasPlaybackError(false);
+                        setCurrentIdx(index);
+                      }}
+                      className={`w-full text-left p-2.5 rounded-xl text-xs flex items-start gap-2.5 transition-all cursor-pointer ${
                         isSelected
                           ? 'bg-amber-500/20 text-amber-200 border border-amber-400/40 font-medium shadow-md'
                           : 'hover:bg-white/5 text-neutral-300 border border-transparent'
@@ -220,7 +288,7 @@ export default function VideoModal({
                           {vid.title}
                         </p>
                         <span className="text-[10px] text-neutral-500 block truncate mt-0.5">
-                          {vid.filename}
+                          {vid.filename || vid.subtitle || 'Alexandria Video'}
                         </span>
                       </div>
                       {isSelected && (
@@ -241,7 +309,7 @@ export default function VideoModal({
             <span className="truncate max-w-xs sm:max-w-md">{currentVideo.title}</span>
           </div>
           <span className="font-mono text-[11px] text-neutral-500 hidden sm:inline">
-            {isAiMode ? '/public/AI' : '/public/video'}
+            {isAiMode ? 'AI Reconstruction Gallery' : 'Alexandria Video Odyssey'}
           </span>
         </div>
       </div>

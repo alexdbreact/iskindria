@@ -1,27 +1,22 @@
 import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
+import { DEFAULT_VIDEOS } from '@/lib/mediaData';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
     const videoDir = path.join(process.cwd(), 'public', 'video');
     
     if (!fs.existsSync(videoDir)) {
-      return NextResponse.json({
-        videos: [
-          {
-            title: 'Alexandria, Egypt - Drone [4K]',
-            src: '/video/Alexandria%20%2C%20Egypt%20%F0%9F%87%AA%F0%9F%87%AC-%20by%20drone%20%5B4K%5D.mp4',
-            filename: 'Alexandria , Egypt 🇪🇬- by drone [4K].mp4'
-          }
-        ]
-      });
+      return NextResponse.json({ videos: DEFAULT_VIDEOS });
     }
 
     const files = fs.readdirSync(videoDir);
     const validVideoExts = new Set(['.mp4', '.webm', '.mov', '.mkv', '.ogg']);
 
-    const videos = files
+    const localVideos = files
       .filter(file => {
         const ext = path.extname(file).toLowerCase();
         return validVideoExts.has(ext);
@@ -32,13 +27,15 @@ export async function GET() {
         return {
           title,
           src: `/video/${encodeURIComponent(file)}`,
+          fallbackSrc: '/title.mp4',
           filename: file
         };
       });
 
+    const videos = localVideos.length > 0 ? localVideos : DEFAULT_VIDEOS;
     return NextResponse.json({ videos });
   } catch (error) {
-    console.error('Error reading video directory:', error);
-    return NextResponse.json({ error: 'Failed to read video files' }, { status: 500 });
+    console.warn('API /api/video falling back to default videos:', error);
+    return NextResponse.json({ videos: DEFAULT_VIDEOS });
   }
 }

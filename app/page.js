@@ -12,41 +12,8 @@ import CustomCursor from '@/components/CustomCursor';
 import LighthouseIcon from '@/components/LighthouseIcon';
 import { LOCAL_PUBLIC_IMAGES } from '@/lib/localImages';
 import { TRANSLATIONS } from '@/lib/i18n';
+import { DEFAULT_PLAYLIST, DEFAULT_VIDEOS, DEFAULT_AI_VIDEOS } from '@/lib/mediaData';
 import { ArrowRight, Compass, Eye, ArrowLeft } from 'lucide-react';
-
-const DEFAULT_PLAYLIST = [
-  {
-    title: 'Alexandria - Yiannis Kotsiras',
-    src: '/mp3/ALEXANDRIA%20%20%20Yiannis%20Kotsiras.mp3',
-    filename: 'ALEXANDRIA   Yiannis Kotsiras.mp3'
-  },
-  {
-    title: 'Alexandria (كان في مرة ولد صغير) - Fatma Said',
-    src: '/mp3/Fatma%20Said%20%20Alexandria%20(Eskendereya%20%D9%83%D8%A7%D9%86%20%D9%81%D9%8A%20%D9%85%D8%B1%D8%A9%20%D9%88%D9%84%D8%AF%20%D8%B5%D8%BA%D9%8A%D8%B1).mp3',
-    filename: 'Fatma Said  Alexandria (Eskendereya كان في مرة ولد صغير).mp3'
-  }
-];
-
-const DEFAULT_VIDEOS = [
-  {
-    title: 'Alexandria, Egypt - Drone [4K]',
-    src: '/video/Alexandria%20%2C%20Egypt%20%F0%9F%87%AA%F0%9F%87%AC-%20by%20drone%20%5B4K%5D.mp4',
-    filename: 'Alexandria , Egypt 🇪🇬- by drone [4K].mp4'
-  }
-];
-
-const DEFAULT_AI_VIDEOS = [
-  {
-    title: 'Alexandria in 240 BC (AI Reconstruction)',
-    src: '/AI/ALEXANDRIA%20in%20240%20BC%20%20%20Experience%20Life%20In%20The%20Most%20Important%20City%20World%20%20%2024%20Hours%20in%20Alexandria.mp4',
-    filename: 'ALEXANDRIA in 240 BC   Experience Life In The Most Important City World   24 Hours in Alexandria.mp4'
-  },
-  {
-    title: 'الإسكندرية 300 قبل الميلاد (إعادة بناء بالذكاء الاصطناعي)',
-    src: '/AI/%D8%A7%D9%84%D8%A5%D8%B3%D9%83%D9%86%D8%AF%D8%B1%D9%8A%D8%A9%20300%20%D9%82%D8%A8%D9%84%20%D8%A7%D9%84%D9%85%D9%8A%D9%84%D8%A7%D8%AF%20(%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9%20%D8%A8%D9%86%D8%A7%D8%A1%20%D8%A8%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A).mp4',
-    filename: 'الإسكندرية 300 قبل الميلاد (إعادة بناء بالذكاء الاصطناعي).mp4'
-  }
-];
 
 export default function App() {
   // Appearance & language states
