@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #120F17;
+  --foreground: #F8F9FA;
+  --font-serif: var(--font-cinzel), serif;
+  --font-sans: var(--font-outfit), sans-serif;
+  --font-arabic: var(--font-cairo), sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-cinzel);
+  --font-sans: var(--font-outfit);
+  --font-arabic: var(--font-cairo);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #120F17;
+  color: #F8F9FA;
+  font-family: var(--font-outfit), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Cursor: Hide default OS cursor on fine pointer devices */
+@media (hover: hover) and (pointer: fine) {
+  html, body, a, button, [role="button"], input, select, textarea, .cursor-pointer, .item__image {
+    cursor: none !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Cursor micro-animations */
+.cursor-hover > div > div {
+  transform: scale(1.18);
+  border-color: #FDE68A;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.7);
+}
+
+.cursor-click > div > div {
+  transform: scale(0.85);
+}
+
+[dir="rtl"] {
+  font-family: var(--font-cairo), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+[dir="rtl"] .font-cinzel {
+  font-family: var(--font-cairo), var(--font-cinzel), serif;
+  letter-spacing: 0.05em;
+}
+
+.font-cinzel {
+  font-family: var(--font-cinzel), serif;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit), sans-serif;
+}
+
+.font-cairo {
+  font-family: var(--font-cairo), sans-serif;
+}
+
+/* Custom Glassmorphism */
+.glass-panel {
+  background: rgba(18, 15, 23, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* Subtle pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2), 0 0 40px rgba(212, 175, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(212, 175, 55, 0.45), 0 0 70px rgba(212, 175, 55, 0.25);
+  }
+}
+
+.glow-btn {
+  animation: pulseGlow 4s infinite ease-in-out;
+}
+
+/* Sound Bar Equalizer Animations */
+@keyframes soundBar1 {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
+@keyframes soundBar2 {
+  0%, 100% { height: 16px; }
+  50% { height: 6px; }
+}
+
+@keyframes soundBar3 {
+  0%, 100% { height: 8px; }
+  50% { height: 18px; }
+}
+
+@keyframes soundBar4 {
+  0%, 100% { height: 14px; }
+  50% { height: 4px; }
+}
+
+.animate-sound-bar-1 {
+  animation: soundBar1 0.75s ease-in-out infinite;
+}
+
+.animate-sound-bar-2 {
+  animation: soundBar2 0.6s ease-in-out infinite;
+}
+
+.animate-sound-bar-3 {
+  animation: soundBar3 0.85s ease-in-out infinite;
+}
+
+.animate-sound-bar-4 {
+  animation: soundBar4 0.7s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.35);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.6);
 }

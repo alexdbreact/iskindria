@@ -1,69 +1,324 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import DomeGallery from '@/components/DomeGallery';
+import VerticalLeftMenu from '@/components/VerticalLeftMenu';
+import AudioPlayer from '@/components/AudioPlayer';
+import VideoModal from '@/components/VideoModal';
+import ProfileModal from '@/components/ProfileModal';
+import VideoMaskedTitle from '@/components/VideoMaskedTitle';
+import CustomCursor from '@/components/CustomCursor';
+import LighthouseIcon from '@/components/LighthouseIcon';
+import { LOCAL_PUBLIC_IMAGES } from '@/lib/localImages';
+import { TRANSLATIONS } from '@/lib/i18n';
+import { ArrowRight, Compass, Eye, ArrowLeft } from 'lucide-react';
+
+const DEFAULT_PLAYLIST = [
+  {
+    title: 'Alexandria - Yiannis Kotsiras',
+    src: '/mp3/ALEXANDRIA%20%20%20Yiannis%20Kotsiras.mp3',
+    filename: 'ALEXANDRIA   Yiannis Kotsiras.mp3'
+  },
+  {
+    title: 'Alexandria (كان في مرة ولد صغير) - Fatma Said',
+    src: '/mp3/Fatma%20Said%20%20Alexandria%20(Eskendereya%20%D9%83%D8%A7%D9%86%20%D9%81%D9%8A%20%D9%85%D8%B1%D8%A9%20%D9%88%D9%84%D8%AF%20%D8%B5%D8%BA%D9%8A%D8%B1).mp3',
+    filename: 'Fatma Said  Alexandria (Eskendereya كان في مرة ولد صغير).mp3'
+  }
+];
+
+const DEFAULT_VIDEOS = [
+  {
+    title: 'Alexandria, Egypt - Drone [4K]',
+    src: '/video/Alexandria%20%2C%20Egypt%20%F0%9F%87%AA%F0%9F%87%AC-%20by%20drone%20%5B4K%5D.mp4',
+    filename: 'Alexandria , Egypt 🇪🇬- by drone [4K].mp4'
+  }
+];
+
+const DEFAULT_AI_VIDEOS = [
+  {
+    title: 'Alexandria in 240 BC (AI Reconstruction)',
+    src: '/AI/ALEXANDRIA%20in%20240%20BC%20%20%20Experience%20Life%20In%20The%20Most%20Important%20City%20World%20%20%2024%20Hours%20in%20Alexandria.mp4',
+    filename: 'ALEXANDRIA in 240 BC   Experience Life In The Most Important City World   24 Hours in Alexandria.mp4'
+  },
+  {
+    title: 'الإسكندرية 300 قبل الميلاد (إعادة بناء بالذكاء الاصطناعي)',
+    src: '/AI/%D8%A7%D9%84%D8%A5%D8%B3%D9%83%D9%86%D8%AF%D8%B1%D9%8A%D8%A9%20300%20%D9%82%D8%A8%D9%84%20%D8%A7%D9%84%D9%85%D9%8A%D9%84%D8%A7%D8%AF%20(%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9%20%D8%A8%D9%86%D8%A7%D8%A1%20%D8%A8%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A).mp4',
+    filename: 'الإسكندرية 300 قبل الميلاد (إعادة بناء بالذكاء الاصطناعي).mp4'
+  }
+];
+
+export default function App() {
+  // Appearance & language states
+  const [isGrayscale, setIsGrayscale] = useState(false);
+  const [lang, setLang] = useState('en');
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  const isArabic = lang === 'ar';
+
+  // Dynamic media items
+  const [images, setImages] = useState(LOCAL_PUBLIC_IMAGES);
+  const [playlist, setPlaylist] = useState(DEFAULT_PLAYLIST);
+  const [videos, setVideos] = useState(DEFAULT_VIDEOS);
+  const [aiVideos, setAiVideos] = useState(DEFAULT_AI_VIDEOS);
+
+  // Audio player states
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [showPlaylistDrawer, setShowPlaylistDrawer] = useState(false);
+  const [wasPlayingBeforeVideo, setWasPlayingBeforeVideo] = useState(false);
+
+  // Modal visibility states
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  // Fetch dynamic assets from APIs
+  useEffect(() => {
+    async function loadAssets() {
+      // 1. Fetch images from /public/images
+      try {
+        const res = await fetch('/api/images');
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.images && data.images.length > 0) {
+            setImages(data.images);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic images:', err);
+      }
+
+      // 2. Fetch audio files from /public/mp3
+      try {
+        const resAudio = await fetch('/api/audio');
+        if (resAudio.ok) {
+          const dataAudio = await resAudio.json();
+          if (dataAudio?.playlist && dataAudio.playlist.length > 0) {
+            setPlaylist(dataAudio.playlist);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic audio playlist:', err);
+      }
+
+      // 3. Fetch video playlist from /public/video
+      try {
+        const resVideo = await fetch('/api/video');
+        if (resVideo.ok) {
+          const dataVideo = await resVideo.json();
+          if (dataVideo?.videos && dataVideo.videos.length > 0) {
+            setVideos(dataVideo.videos);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic videos:', err);
+      }
+
+      // 4. Fetch AI video playlist from /public/AI
+      try {
+        const resAi = await fetch('/api/ai-videos');
+        if (resAi.ok) {
+          const dataAi = await resAi.json();
+          if (dataAi?.videos && dataAi.videos.length > 0) {
+            setAiVideos(dataAi.videos);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic AI videos:', err);
+      }
+    }
+
+    loadAssets();
+  }, []);
+
+  // Language toggle handler
+  const toggleLanguage = useCallback(() => {
+    setLang(prev => (prev === 'en' ? 'ar' : 'en'));
+  }, []);
+
+  // Audio toggle handler
+  const toggleAudio = useCallback(() => {
+    setIsPlaying(prev => !prev);
+  }, []);
+
+  // Video modal handlers
+  const handleOpenVideo = useCallback(() => {
+    setWasPlayingBeforeVideo(isPlaying);
+    setIsPlaying(false);
+    setIsVideoModalOpen(true);
+  }, [isPlaying]);
+
+  const handleCloseVideo = useCallback(() => {
+    setIsVideoModalOpen(false);
+    if (wasPlayingBeforeVideo) {
+      setIsPlaying(true);
+    }
+  }, [wasPlayingBeforeVideo]);
+
+  // AI Video modal handlers
+  const handleOpenAiModal = useCallback(() => {
+    setWasPlayingBeforeVideo(isPlaying);
+    setIsPlaying(false);
+    setIsAiModalOpen(true);
+  }, [isPlaying]);
+
+  const handleCloseAiModal = useCallback(() => {
+    setIsAiModalOpen(false);
+    if (wasPlayingBeforeVideo) {
+      setIsPlaying(true);
+    }
+  }, [wasPlayingBeforeVideo]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main
+      dir={t.dir}
+      className={`relative w-screen h-screen overflow-hidden bg-[#120F17] select-none ${isArabic ? 'font-cairo' : 'font-outfit'}`}
+    >
+      {/* Lighthouse Custom Glowing Cursor Follower */}
+      <CustomCursor />
+
+      {/* 3D Dome Gallery Canvas */}
+      <div style={{ width: '100vw', height: '100vh' }} className="absolute inset-0">
+        <DomeGallery
+          fit={0.8}
+          minRadius={600}
+          maxVerticalRotationDeg={0}
+          segments={34}
+          dragDampening={2}
+          grayscale={isGrayscale}
+          autoRotate={true}
+          autoRotateSpeed={0.08}
+          images={images}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+      </div>
+
+      {/* Floating Top Header: Brand & Extra-Large Video-Masked Title */}
+      <header className="pointer-events-none absolute top-0 left-0 right-0 z-30 flex flex-col items-center justify-start pt-4 sm:pt-6 px-4 sm:px-6">
+        <div className="flex flex-col items-center text-center space-y-1 max-w-6xl w-full">
+          {/* Badge */}
+          <div className="pointer-events-auto inline-flex items-center gap-2.5 px-5 py-1.5 sm:px-6 sm:py-2 rounded-full glass-pill text-xs sm:text-sm md:text-base tracking-[0.2em] text-amber-200/90 uppercase font-medium shadow-2xl transition-all duration-300 hover:border-amber-400/40">
+            <LighthouseIcon className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse shadow-md" />
+            <span>{t.badge}</span>
+          </div>
+
+          {/* Extra-Large Video-Masked Title: Video /title.mp4 plays directly inside font */}
+          <div className="w-full flex items-center justify-center">
+            <VideoMaskedTitle
+              text={t.title}
+              isArabic={isArabic}
+              videoSrc="/title.mp4"
+            />
+          </div>
+
+          {/* Subtitle */}
+          <p className="font-cinzel text-xs sm:text-sm md:text-base tracking-[0.35em] text-amber-100/90 uppercase font-light drop-shadow-md -mt-2 sm:-mt-4">
+            {t.subtitle}
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </header>
+
+      {/* Top Right Quick Controls (Grayscale Toggle) */}
+      <div
+        className={`pointer-events-auto absolute top-6 ${
+          isArabic ? 'left-6' : 'right-6'
+        } z-30 flex items-center gap-3`}
+      >
+        <button
+          onClick={() => setIsGrayscale(prev => !prev)}
+          className="flex items-center gap-2 px-3.5 py-2 rounded-full glass-pill text-xs font-medium text-neutral-300 hover:text-white hover:border-amber-400/50 transition-all duration-200 shadow-lg cursor-pointer"
+          title={isGrayscale ? t.grayscaleColor : t.grayscaleMono}
+          aria-label="Toggle Grayscale Mode"
+        >
+          <Eye className={`w-3.5 h-3.5 ${isGrayscale ? 'text-neutral-400' : 'text-amber-300'}`} />
+          <span className="hidden sm:inline">
+            {isGrayscale ? t.grayscaleColor : t.grayscaleMono}
+          </span>
+        </button>
+      </div>
+
+      {/* Vertical Left Menu with 4 Icons & "Made by :" Button */}
+      <VerticalLeftMenu
+        isPlaying={isPlaying}
+        toggleAudio={toggleAudio}
+        openVideoModal={handleOpenVideo}
+        openAiModal={handleOpenAiModal}
+        toggleLanguage={toggleLanguage}
+        openProfileModal={() => setIsProfileModalOpen(true)}
+        currentLanguage={lang}
+        t={t}
+        playlist={playlist}
+        currentTrackIndex={currentTrackIndex}
+        showPlaylistDrawer={showPlaylistDrawer}
+        setShowPlaylistDrawer={setShowPlaylistDrawer}
+      />
+
+      {/* Background Audio Player Engine & Playlist Drawer */}
+      <div className={`fixed ${isArabic ? 'right-20' : 'left-20'} top-1/2 -translate-y-1/2 z-50 pointer-events-auto`}>
+        <AudioPlayer
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          currentTrackIndex={currentTrackIndex}
+          setCurrentTrackIndex={setCurrentTrackIndex}
+          playlist={playlist}
+          lang={lang}
+          t={t}
+          showExpandedMenu={showPlaylistDrawer}
+          setShowExpandedMenu={setShowPlaylistDrawer}
+        />
+      </div>
+
+      {/* Floating Bottom Navigation & Start Button */}
+      <footer className="pointer-events-none absolute bottom-0 left-0 right-0 z-30 flex flex-col items-center justify-end pb-6 md:pb-10 px-6">
+        <div className="flex flex-col items-center gap-3.5 sm:gap-4.5 w-full max-w-md">
+          {/* Interaction Instruction Pill */}
+          <div className="pointer-events-auto flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-[11px] sm:text-xs text-neutral-400 tracking-wider">
+            <Compass className="w-3.5 h-3.5 text-amber-300/80 animate-spin" style={{ animationDuration: '10s' }} />
+            <span>{t.hintText}</span>
+          </div>
+
+          {/* Primary Action Button: Start */}
+          <Link
+            href="/start"
+            className="pointer-events-auto group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 sm:px-10 sm:py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-cinzel text-sm sm:text-base font-bold tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(245,158,11,0.35)] glow-btn hover:shadow-[0_0_45px_rgba(245,158,11,0.6)] hover:scale-105 active:scale-98 transition-all duration-300"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <span>{t.start}</span>
+            {isArabic ? (
+              <ArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1.5" />
+            ) : (
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+            )}
+          </Link>
         </div>
-      </main>
-    </div>
+      </footer>
+
+      {/* 1. Alexandria Regular Videos Lightbox Playlist Modal */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={handleCloseVideo}
+        videos={videos}
+        modalTitle={t.videoModalTitle}
+        modalSubtitle={t.videoModalSubtitle}
+        isAiMode={false}
+        t={t}
+      />
+
+      {/* 2. AI Reconstructions Videos Lightbox Playlist Modal */}
+      <VideoModal
+        isOpen={isAiModalOpen}
+        onClose={handleCloseAiModal}
+        videos={aiVideos}
+        modalTitle={t.aiModalTitle}
+        modalSubtitle={t.aiModalSubtitle}
+        isAiMode={true}
+        t={t}
+      />
+
+      {/* "Made by : WebAlex" 3D Animated Profile Modal */}
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        t={t}
+      />
+    </main>
   );
 }

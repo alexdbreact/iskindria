@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ISKINDRIA (إسكندرية) - As You Have Never Seen Before
 
-## Getting Started
+> An immersive luxury 3D Web experience celebrating the timeless legacy, culture, and futuristic vision of Alexandria, Egypt.
 
-First, run the development server:
+---
 
+## ✨ Features
+
+- **🌐 Interactive 3D Dome Sphere Gallery**: Seamless mouse drag, auto-rotation, and smooth 3D perspective projection.
+- **🎬 Video-Masked Brand Typography**: Cinematic video playing directly inside the font letters with zero overflow.
+- **🎵 Ambient Background Music Player**: Autoplay audio engine with bouncing sound waves equalizer and expandable tracklist drawer.
+- **🎥 Alexandria Cinema & AI Reconstructions**: Video playlist modals featuring 4K drone cinematography and AI historical recreations of 300 BC Alexandria.
+- **🌍 Full Bilingual Localization (AR / EN)**: Dynamic RTL & LTR layout switching with Cairo and Cinzel typography.
+- **✨ Custom Pharos Lighthouse Cursor**: Transparent cutout silhouette with pulsing top lantern beacon, golden trailing halo, and stardust particles.
+- **👤 Interactive 3D Creator Profile**: Dynamic perspective mouse-tilt profile card with quick contact actions.
+
+---
+
+## 🚀 Tech Stack
+
+- **Framework**: [Next.js 16 (App Router)](https://nextjs.org/) + [React 19](https://react.dev/)
+- **Styling**: Tailwind CSS + Custom Vanilla CSS Glassmorphism
+- **Icons**: Lucide React + Custom Pharos Cutout Vectors
+- **Fonts**: Google Fonts (`Cinzel`, `Outfit`, `Cairo`)
+- **Media Engine**: HTML5 Audio & Video Streaming
+
+---
+
+## 🛠️ Getting Started
+
+### Prerequisites
+- Node.js 18+ or later
+- npm, pnpm, or yarn
+
+### Installation
 ```bash
+# Clone repository
+git clone https://github.com/alexdbreact/iskindria.git
+cd iskindria
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏗️ Production Build
 
-## Learn More
+```bash
+# Build optimized production bundle
+npm run build
 
-To learn more about Next.js, take a look at the following resources:
+# Run production server
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 👨‍💻 Creator & Credits
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Creator**: WebAlex Studio
+- **Website**: [web.iskindria.com](https://web.iskindria.com)
+- **Contact**: [+20 115 966 6279](tel:+201159666279)
