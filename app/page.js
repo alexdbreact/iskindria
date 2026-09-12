@@ -98,7 +98,7 @@ export default function App() {
   return (
     <main
       dir={t.dir}
-      className={`relative w-screen h-screen overflow-hidden bg-[#120F17] select-none ${isArabic ? 'font-cairo' : 'font-outfit'}`}
+      className={`fixed inset-0 w-screen h-screen overflow-hidden bg-[#120F17] select-none ${isArabic ? 'font-cairo' : 'font-outfit'}`}
     >
       {/* Lighthouse Custom Glowing Cursor Follower */}
       <CustomCursor />

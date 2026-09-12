@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className="dark h-full bg-[#120F17] text-white"
+      className="dark min-h-screen bg-[#120F17] text-white"
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       </head>
       <body
         suppressHydrationWarning
-        className="h-full w-full overflow-hidden bg-[#120F17] font-sans antialiased"
+        className="min-h-screen w-full bg-[#120F17] font-sans antialiased overflow-x-hidden"
       >
         {children}
       </body>

@@ -38,7 +38,7 @@ export default function StartPage() {
   return (
     <div
       dir={t.dir}
-      className={`min-h-screen w-full bg-[#0E0C13] text-neutral-100 flex flex-col justify-between overflow-y-auto overflow-x-hidden selection:bg-amber-500 selection:text-black ${
+      className={`min-h-screen w-full bg-[#0E0C13] text-neutral-100 flex flex-col justify-between selection:bg-amber-500 selection:text-black ${
         isArabic ? 'font-cairo' : 'font-outfit'
       }`}
     >
