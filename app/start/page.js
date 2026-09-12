@@ -102,39 +102,39 @@ export default function StartPage() {
         </div>
 
         {/* Central Featured Luxury Banner: "Share Your Experience Content" */}
-        <div className="relative mb-10 sm:mb-14 max-w-3xl mx-auto w-full">
+        <div className="relative mb-12 sm:mb-16 max-w-4xl mx-auto w-full">
           {/* Subtle Ambient Glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 via-emerald-500/15 to-amber-500/20 rounded-3xl blur-xl opacity-60 pointer-events-none" />
 
-          <div className="relative overflow-hidden rounded-3xl bg-[#15111D]/90 border-2 border-amber-400/40 p-6 sm:p-8 backdrop-blur-2xl shadow-[0_0_40px_rgba(245,158,11,0.18)] hover:border-amber-400/60 transition-all duration-300">
+          <div className="relative overflow-hidden rounded-3xl bg-[#15111D]/90 border-2 border-amber-400/40 p-6 sm:p-8 md:p-9 backdrop-blur-2xl shadow-[0_0_40px_rgba(245,158,11,0.18)] hover:border-amber-400/60 transition-all duration-300">
             {/* Corner Decorative Lights */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-36 h-36 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
 
-            <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-              <div className="space-y-2 text-center sm:text-start flex-1">
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+              <div className="space-y-2.5 text-center md:text-start flex-1 min-w-0">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 text-xs font-semibold tracking-wider">
                   <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
                   <span>{odyssey.shareCtaBadge || 'Community & Creators Hub'}</span>
                 </div>
 
-                <h2 className="font-cinzel text-xl sm:text-2xl font-bold text-white tracking-wide">
-                  {odyssey.shareCtaTitle || 'Share Your Experience Content'}
+                <h2 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-white to-amber-200">
+                  {odyssey.shareCtaTitle || 'Share Your Alexandria Story'}
                 </h2>
 
-                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
                   {odyssey.shareCtaSubtitle ||
-                    'Do you have a personal story, unforgettable memory, photography, or historical insights about Alexandria? Submit your content for review to be featured directly on the Alexandria Odyssey.'}
+                    'Have a personal story, unforgettable memory, photography, or historical insights about Alexandria? Submit your content for review to be featured on the Alexandria Odyssey.'}
                 </p>
               </div>
 
               {/* Primary Call To Action Button triggering the Modal */}
               <button
                 onClick={() => setIsShareModalOpen(true)}
-                className="w-full sm:w-auto flex-shrink-0 group relative inline-flex items-center justify-center gap-3 px-7 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:via-amber-300 hover:to-amber-500 text-neutral-950 font-cinzel text-xs sm:text-sm font-black tracking-wider uppercase shadow-[0_0_30px_rgba(245,158,11,0.4)] hover:shadow-[0_0_45px_rgba(245,158,11,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer whitespace-nowrap"
+                className="w-full md:w-auto flex-shrink-0 group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:via-amber-300 hover:to-amber-500 text-neutral-950 font-cinzel text-xs sm:text-sm font-bold tracking-wider uppercase shadow-[0_0_30px_rgba(245,158,11,0.35)] hover:shadow-[0_0_45px_rgba(245,158,11,0.65)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer whitespace-nowrap"
               >
                 <MessageCircle className="w-5 h-5 text-neutral-950 group-hover:scale-110 transition-transform" />
-                <span>{odyssey.shareCtaButton || 'Share Your Experience Content'}</span>
+                <span>{odyssey.shareCtaButton || 'Share Your Story'}</span>
                 <Share2 className="w-4 h-4 text-neutral-950/80 group-hover:rotate-12 transition-transform" />
               </button>
             </div>
