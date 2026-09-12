@@ -206,9 +206,9 @@ export default function App() {
             {/* 1. Alexandria Odyssey Button */}
             <Link
               href="/start"
-              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-cinzel text-sm sm:text-base md:text-lg font-black tracking-[0.16em] uppercase shadow-[0_0_35px_rgba(245,158,11,0.45)] glow-btn hover:shadow-[0_0_55px_rgba(245,158,11,0.75)] hover:scale-105 active:scale-95 transition-all duration-300 whitespace-nowrap cursor-pointer"
+              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-cinzel text-sm sm:text-base md:text-lg font-black tracking-[0.16em] uppercase shadow-[0_0_35px_rgba(245,158,11,0.45)] glow-btn hover:shadow-[0_0_55px_rgba(245,158,11,0.75)] hover:scale-105 active:scale-95 transition-all duration-300 whitespace-nowrap cursor-pointer"
             >
-              <LighthouseIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform duration-300" />
+              <LighthouseIcon className="w-7 h-7 sm:w-8 sm:h-8 group-hover:scale-115 group-hover:rotate-6 transition-all duration-300 drop-shadow-md" />
               <span>{t.alexandriaOdyssey || 'Alexandria Odyssey'}</span>
               {isArabic ? (
                 <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1.5" />
@@ -222,9 +222,13 @@ export default function App() {
               href={t.developerPlatformUrl || 'https://webalex-ten.vercel.app/'}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-black/75 hover:bg-neutral-900/90 text-white hover:text-amber-200 font-cinzel text-sm sm:text-base md:text-lg font-bold tracking-[0.16em] uppercase border-2 border-amber-400/60 hover:border-amber-300 shadow-[0_10px_35px_rgba(0,0,0,0.8)] hover:shadow-[0_0_40px_rgba(245,158,11,0.45)] hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-xl whitespace-nowrap cursor-pointer"
+              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-black/75 hover:bg-neutral-900/90 text-white hover:text-amber-200 font-cinzel text-sm sm:text-base md:text-lg font-bold tracking-[0.16em] uppercase border-2 border-amber-400/60 hover:border-amber-300 shadow-[0_10px_35px_rgba(0,0,0,0.8)] hover:shadow-[0_0_40px_rgba(245,158,11,0.45)] hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-xl whitespace-nowrap cursor-pointer"
             >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 group-hover:scale-110 transition-transform" />
+              <img
+                src="/developer-platform-icon.png"
+                alt="Developer Platform"
+                className="w-7 h-7 sm:w-8 sm:h-8 object-contain filter drop-shadow-[0_0_12px_rgba(56,189,248,0.5)] group-hover:scale-115 group-hover:rotate-3 transition-transform duration-300 flex-shrink-0"
+              />
               <span>{t.developerPlatform || 'Developer Platform'}</span>
               <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400/90 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
             </a>
