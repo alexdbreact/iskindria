@@ -19,7 +19,6 @@ export default function VerticalLeftMenu({
   isPlaying,
   toggleAudio,
   openVideoModal,
-  openAiModal,
   toggleLanguage,
   openProfileModal,
   currentLanguage = 'en',
@@ -87,13 +86,13 @@ export default function VerticalLeftMenu({
           </div>
         </div>
 
-        {/* 2. ALEXANDRIA VIDEOS MODAL ICON */}
+        {/* 2. ALEXANDRIA VIDEOS CINEMA MODAL ICON */}
         <div className="relative group">
           <button
-            onClick={openVideoModal}
+            onClick={() => openVideoModal('all')}
             className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/5 hover:bg-amber-500/20 text-neutral-300 hover:text-amber-300 border border-white/10 hover:border-amber-400/50 flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
-            title={t?.videoTooltip || 'Alexandria Videos'}
-            aria-label="Play Alexandria Videos Playlist"
+            title={t?.videoTooltip || 'Alexandria Cinema (Tour, Docs, AI, History)'}
+            aria-label="Open Alexandria Videos Cinema"
           >
             <Film className="w-5 h-5 transition-transform group-hover:scale-110" />
           </button>
@@ -104,35 +103,11 @@ export default function VerticalLeftMenu({
               } hidden group-hover:flex items-center gap-2 px-3 py-1.5 rounded-xl glass-panel text-xs text-neutral-100 whitespace-nowrap shadow-xl border border-white/15 pointer-events-none z-50 animate-in fade-in zoom-in-95 duration-150`}
           >
             <Play className="w-3.5 h-3.5 text-amber-300 fill-current" />
-            <span>{t?.videoTooltip || 'Alexandria Videos'}</span>
+            <span>{t?.videoTooltip || 'Alexandria Cinema'}</span>
           </div>
         </div>
 
-        {/* 3. AI VIDEOS MODAL ICON (AI) */}
-        <div className="relative group">
-          <button
-            onClick={openAiModal}
-            className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-tr from-purple-900/40 via-indigo-800/30 to-purple-600/30 hover:from-purple-600/60 hover:to-indigo-500/60 text-purple-200 hover:text-white border border-purple-400/40 hover:border-purple-300 flex flex-col items-center justify-center transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.25)] hover:shadow-[0_0_22px_rgba(168,85,247,0.5)] hover:scale-105 active:scale-95 cursor-pointer"
-            title={t?.aiVideoTooltip || 'AI Historical Videos'}
-            aria-label="Play AI Historical Reconstructions"
-          >
-            <span className="font-mono text-xs sm:text-sm font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-pink-200 to-amber-200">
-              AI
-            </span>
-            <span className="w-1 h-1 rounded-full bg-purple-400 animate-pulse mt-0.5" />
-          </button>
-
-          {/* Tooltip on Hover */}
-          <div
-            className={`absolute top-1/2 -translate-y-1/2 ${isArabic ? 'right-full mr-3' : 'left-full ml-3'
-              } hidden group-hover:flex items-center gap-2 px-3 py-1.5 rounded-xl glass-panel text-xs text-purple-200 whitespace-nowrap shadow-xl border border-purple-500/30 pointer-events-none z-50 animate-in fade-in zoom-in-95 duration-150`}
-          >
-            <Bot className="w-3.5 h-3.5 text-purple-400" />
-            <span>{t?.aiVideoTooltip || 'AI Historical Reconstructions'}</span>
-          </div>
-        </div>
-
-        {/* 4. ARABIC LANGUAGE CONVERSION ICON (AR / EN) */}
+        {/* 3. ARABIC LANGUAGE CONVERSION ICON (AR / EN) */}
         <div className="relative group">
           <button
             onClick={toggleLanguage}

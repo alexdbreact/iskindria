@@ -88,13 +88,6 @@ export default function App() {
     setIsVideoModalOpen(true);
   }, [isPlaying]);
 
-  const handleOpenAiModal = useCallback(() => {
-    setWasPlayingBeforeVideo(isPlaying);
-    setIsPlaying(false);
-    setVideoCategory('ai');
-    setIsVideoModalOpen(true);
-  }, [isPlaying]);
-
   const handleCloseVideo = useCallback(() => {
     setIsVideoModalOpen(false);
     if (wasPlayingBeforeVideo) {
@@ -169,12 +162,11 @@ export default function App() {
         </button>
       </div>
 
-      {/* Vertical Left Menu with 4 Icons & "Made by :" Button */}
+      {/* Vertical Left Menu with 3 Icons & "Made by :" Button */}
       <VerticalLeftMenu
         isPlaying={isPlaying}
         toggleAudio={toggleAudio}
         openVideoModal={handleOpenVideo}
-        openAiModal={handleOpenAiModal}
         toggleLanguage={toggleLanguage}
         openProfileModal={() => setIsProfileModalOpen(true)}
         currentLanguage={lang}
