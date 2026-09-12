@@ -61,7 +61,7 @@ export default function StartPage() {
           ) : (
             <ArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" />
           )}
-          <span>{odyssey.backTo3D || 'Back to 3D Sphere'}</span>
+          <span>{odyssey.backTo3D || (isArabic ? 'الصفحة الرئيسية' : 'Home Page')}</span>
         </Link>
 
         {/* Brand & Language Toggle */}
@@ -200,7 +200,7 @@ export default function StartPage() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-cinzel text-sm font-bold tracking-[0.18em] uppercase shadow-[0_0_25px_rgba(245,158,11,0.3)] hover:shadow-[0_0_35px_rgba(245,158,11,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           >
             <Compass className="w-4 h-4" />
-            <span>{odyssey.enter3D || 'Enter 3D Sphere Experience'}</span>
+            <span>{odyssey.enter3D || (isArabic ? 'الرجوع للصفحة الرئيسية' : 'Return to Home Page')}</span>
           </Link>
 
           <button
@@ -208,7 +208,7 @@ export default function StartPage() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-amber-200 border border-amber-400/40 hover:border-amber-400 font-cinzel text-sm font-bold tracking-[0.14em] uppercase hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4 text-emerald-400" />
-            <span>{odyssey.shareCtaButton || 'Share Your Experience Content'}</span>
+            <span>{odyssey.shareCtaButton || (isArabic ? 'شارك محتواك وتجربتك' : 'Share Your Story')}</span>
           </button>
         </div>
       </main>
