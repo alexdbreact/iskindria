@@ -13,7 +13,7 @@ import LighthouseIcon from '@/components/LighthouseIcon';
 import { LOCAL_PUBLIC_IMAGES } from '@/lib/localImages';
 import { TRANSLATIONS } from '@/lib/i18n';
 import { DEFAULT_PLAYLIST } from '@/lib/mediaData';
-import { ArrowRight, Compass, Eye, ArrowLeft } from 'lucide-react';
+import { ArrowRight, Compass, Eye, ArrowLeft, ExternalLink, Sparkles } from 'lucide-react';
 
 export default function App() {
   // Appearance & language states
@@ -192,27 +192,43 @@ export default function App() {
         />
       </div>
 
-      {/* Floating Bottom Navigation & Start Button */}
-      <footer className="pointer-events-none absolute bottom-0 left-0 right-0 z-30 flex flex-col items-center justify-end pb-6 md:pb-10 px-6">
-        <div className="flex flex-col items-center gap-3.5 sm:gap-4.5 w-full max-w-md">
+      {/* Floating Bottom Navigation & 2 Primary Action Buttons */}
+      <footer className="pointer-events-none absolute bottom-0 left-0 right-0 z-30 flex flex-col items-center justify-end pb-8 sm:pb-12 md:pb-14 px-4 sm:px-6">
+        <div className="flex flex-col items-center gap-4 sm:gap-5 w-full max-w-2xl">
           {/* Interaction Instruction Pill */}
-          <div className="pointer-events-auto flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-[11px] sm:text-xs text-neutral-400 tracking-wider">
+          <div className="pointer-events-auto flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-[11px] sm:text-xs text-neutral-400 tracking-wider shadow-lg">
             <Compass className="w-3.5 h-3.5 text-amber-300/80 animate-spin" style={{ animationDuration: '10s' }} />
             <span>{t.hintText}</span>
           </div>
 
-          {/* Primary Action Button: Start */}
-          <Link
-            href="/start"
-            className="pointer-events-auto group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 sm:px-10 sm:py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-cinzel text-sm sm:text-base font-bold tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(245,158,11,0.35)] glow-btn hover:shadow-[0_0_45px_rgba(245,158,11,0.6)] hover:scale-105 active:scale-98 transition-all duration-300"
-          >
-            <span>{t.start}</span>
-            {isArabic ? (
-              <ArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1.5" />
-            ) : (
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-            )}
-          </Link>
+          {/* 2 Primary Action Buttons: 1. Alexandria Odyssey & 2. Developer Platform */}
+          <div className="pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5 w-full">
+            {/* 1. Alexandria Odyssey Button */}
+            <Link
+              href="/start"
+              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-cinzel text-sm sm:text-base md:text-lg font-black tracking-[0.16em] uppercase shadow-[0_0_35px_rgba(245,158,11,0.45)] glow-btn hover:shadow-[0_0_55px_rgba(245,158,11,0.75)] hover:scale-105 active:scale-95 transition-all duration-300 whitespace-nowrap cursor-pointer"
+            >
+              <LighthouseIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform duration-300" />
+              <span>{t.alexandriaOdyssey || 'Alexandria Odyssey'}</span>
+              {isArabic ? (
+                <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1.5" />
+              ) : (
+                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+              )}
+            </Link>
+
+            {/* 2. Developer Platform Button */}
+            <a
+              href={t.developerPlatformUrl || 'https://webalex-ten.vercel.app/'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-black/75 hover:bg-neutral-900/90 text-white hover:text-amber-200 font-cinzel text-sm sm:text-base md:text-lg font-bold tracking-[0.16em] uppercase border-2 border-amber-400/60 hover:border-amber-300 shadow-[0_10px_35px_rgba(0,0,0,0.8)] hover:shadow-[0_0_40px_rgba(245,158,11,0.45)] hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-xl whitespace-nowrap cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 group-hover:scale-110 transition-transform" />
+              <span>{t.developerPlatform || 'Developer Platform'}</span>
+              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400/90 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+            </a>
+          </div>
         </div>
       </footer>
 
