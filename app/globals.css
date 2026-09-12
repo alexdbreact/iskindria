@@ -1,11 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Cinzel:wght@400;600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #120F17;
   --foreground: #F8F9FA;
-  --font-serif: var(--font-cinzel), serif;
-  --font-sans: var(--font-outfit), sans-serif;
-  --font-arabic: var(--font-cairo), sans-serif;
+  --font-cinzel: 'Cinzel', serif;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-cairo: 'Cairo', sans-serif;
+  --font-serif: 'Cinzel', serif;
+  --font-sans: 'Outfit', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
 }
 
 @theme inline {

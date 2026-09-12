@@ -1,23 +1,4 @@
-import { Cinzel, Outfit, Cairo } from "next/font/google";
 import "./globals.css";
-
-const cinzel = Cinzel({
-  variable: "--font-cinzel",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800", "900"],
-});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const cairo = Cairo({
-  variable: "--font-cairo",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "600", "700", "800", "900"],
-});
 
 export const metadata = {
   title: "ISKINDRIA | As You Never Seen Before",
@@ -40,9 +21,11 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${cinzel.variable} ${outfit.variable} ${cairo.variable} dark h-full bg-[#120F17] text-white`}
+      className="dark h-full bg-[#120F17] text-white"
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/vision_image.png" />
         <link rel="shortcut icon" href="/vision_image.png" />
         <link rel="apple-touch-icon" href="/vision_image.png" />

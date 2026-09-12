@@ -12,7 +12,7 @@ import CustomCursor from '@/components/CustomCursor';
 import LighthouseIcon from '@/components/LighthouseIcon';
 import { LOCAL_PUBLIC_IMAGES } from '@/lib/localImages';
 import { TRANSLATIONS } from '@/lib/i18n';
-import { DEFAULT_PLAYLIST, DEFAULT_VIDEOS, DEFAULT_AI_VIDEOS } from '@/lib/mediaData';
+import { DEFAULT_PLAYLIST } from '@/lib/mediaData';
 import { ArrowRight, Compass, Eye, ArrowLeft } from 'lucide-react';
 
 export default function App() {
@@ -25,8 +25,6 @@ export default function App() {
   // Dynamic media items
   const [images, setImages] = useState(LOCAL_PUBLIC_IMAGES);
   const [playlist, setPlaylist] = useState(DEFAULT_PLAYLIST);
-  const [videos, setVideos] = useState(DEFAULT_VIDEOS);
-  const [aiVideos, setAiVideos] = useState(DEFAULT_AI_VIDEOS);
 
   // Audio player states
   const [isPlaying, setIsPlaying] = useState(true);
@@ -36,7 +34,7 @@ export default function App() {
 
   // Modal visibility states
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [videoCategory, setVideoCategory] = useState('all');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   // Fetch dynamic assets from APIs
@@ -67,32 +65,6 @@ export default function App() {
       } catch (err) {
         console.error('Failed to load dynamic audio playlist:', err);
       }
-
-      // 3. Fetch video playlist from /public/video
-      try {
-        const resVideo = await fetch('/api/video');
-        if (resVideo.ok) {
-          const dataVideo = await resVideo.json();
-          if (dataVideo?.videos && dataVideo.videos.length > 0) {
-            setVideos(dataVideo.videos);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load dynamic videos:', err);
-      }
-
-      // 4. Fetch AI video playlist from /public/AI
-      try {
-        const resAi = await fetch('/api/ai-videos');
-        if (resAi.ok) {
-          const dataAi = await resAi.json();
-          if (dataAi?.videos && dataAi.videos.length > 0) {
-            setAiVideos(dataAi.videos);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load dynamic AI videos:', err);
-      }
     }
 
     loadAssets();
@@ -109,28 +81,22 @@ export default function App() {
   }, []);
 
   // Video modal handlers
-  const handleOpenVideo = useCallback(() => {
+  const handleOpenVideo = useCallback((cat = 'all') => {
     setWasPlayingBeforeVideo(isPlaying);
     setIsPlaying(false);
+    setVideoCategory(cat || 'all');
+    setIsVideoModalOpen(true);
+  }, [isPlaying]);
+
+  const handleOpenAiModal = useCallback(() => {
+    setWasPlayingBeforeVideo(isPlaying);
+    setIsPlaying(false);
+    setVideoCategory('ai');
     setIsVideoModalOpen(true);
   }, [isPlaying]);
 
   const handleCloseVideo = useCallback(() => {
     setIsVideoModalOpen(false);
-    if (wasPlayingBeforeVideo) {
-      setIsPlaying(true);
-    }
-  }, [wasPlayingBeforeVideo]);
-
-  // AI Video modal handlers
-  const handleOpenAiModal = useCallback(() => {
-    setWasPlayingBeforeVideo(isPlaying);
-    setIsPlaying(false);
-    setIsAiModalOpen(true);
-  }, [isPlaying]);
-
-  const handleCloseAiModal = useCallback(() => {
-    setIsAiModalOpen(false);
     if (wasPlayingBeforeVideo) {
       setIsPlaying(true);
     }
@@ -258,26 +224,13 @@ export default function App() {
         </div>
       </footer>
 
-      {/* 1. Alexandria Regular Videos Lightbox Playlist Modal */}
+      {/* Unified Alexandria 4-Category YouTube Cinema Modal (Tour, Documentary, AI, Historical) */}
       <VideoModal
         isOpen={isVideoModalOpen}
         onClose={handleCloseVideo}
-        videos={videos}
-        modalTitle={t.videoModalTitle}
-        modalSubtitle={t.videoModalSubtitle}
-        isAiMode={false}
+        initialCategory={videoCategory}
         t={t}
-      />
-
-      {/* 2. AI Reconstructions Videos Lightbox Playlist Modal */}
-      <VideoModal
-        isOpen={isAiModalOpen}
-        onClose={handleCloseAiModal}
-        videos={aiVideos}
-        modalTitle={t.aiModalTitle}
-        modalSubtitle={t.aiModalSubtitle}
-        isAiMode={true}
-        t={t}
+        lang={lang}
       />
 
       {/* "Made by : WebAlex" 3D Animated Profile Modal */}
