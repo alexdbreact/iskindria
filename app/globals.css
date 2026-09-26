@@ -125,6 +125,22 @@ html, body {
   animation: pulseGlow 4s infinite ease-in-out;
 }
 
+/* Luxury Smooth Bounce Animation for Developer Platform */
+@keyframes luxuryBounce {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 8px 30px rgba(56, 189, 248, 0.35), 0 0 45px rgba(245, 158, 11, 0.25);
+  }
+  50% {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 40px rgba(56, 189, 248, 0.6), 0 0 65px rgba(245, 158, 11, 0.45);
+  }
+}
+
+.animate-luxury-bounce {
+  animation: luxuryBounce 3s infinite ease-in-out;
+}
+
 /* Sound Bar Equalizer Animations */
 @keyframes soundBar1 {
   0%, 100% { height: 4px; }

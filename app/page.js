@@ -201,36 +201,51 @@ export default function App() {
             <span>{t.hintText}</span>
           </div>
 
-          {/* 2 Primary Action Buttons: 1. Alexandria Odyssey & 2. Developer Platform */}
-          <div className="pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5 w-full">
-            {/* 1. Alexandria Odyssey Button */}
-            <Link
-              href="/start"
-              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-cinzel text-sm sm:text-base md:text-lg font-black tracking-[0.16em] uppercase shadow-[0_0_35px_rgba(245,158,11,0.45)] glow-btn hover:shadow-[0_0_55px_rgba(245,158,11,0.75)] hover:scale-105 active:scale-95 transition-all duration-300 whitespace-nowrap cursor-pointer"
-            >
-              <LighthouseIcon className="w-7 h-7 sm:w-8 sm:h-8 group-hover:scale-115 group-hover:rotate-6 transition-all duration-300 drop-shadow-md" />
-              <span>{t.alexandriaOdyssey || 'Alexandria Odyssey'}</span>
-              {isArabic ? (
-                <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1.5" />
-              ) : (
-                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
-              )}
-            </Link>
+          {/* 3 Primary Action Buttons */}
+          <div className="pointer-events-auto flex flex-col items-center justify-center gap-3 sm:gap-3.5 w-full max-w-2xl">
+            {/* Top Row: Button 1 (Share your Story) & Button 2 (Alexandria Odyssey) */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-3.5 w-full">
+              {/* 1. Share your Story Button -> /start */}
+              <Link
+                href="/start"
+                className="group relative w-full sm:w-1/2 inline-flex items-center justify-center gap-3 px-6 py-3.5 sm:px-7 sm:py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-cinzel text-xs sm:text-sm md:text-base font-black tracking-[0.14em] uppercase shadow-[0_0_35px_rgba(245,158,11,0.45)] glow-btn hover:shadow-[0_0_55px_rgba(245,158,11,0.75)] hover:scale-105 active:scale-95 transition-all duration-300 whitespace-nowrap cursor-pointer"
+              >
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-950 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300" />
+                <span>{t.shareYourStory || 'Share your Story'}</span>
+                {isArabic ? (
+                  <ArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1.5" />
+                ) : (
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                )}
+              </Link>
 
-            {/* 2. Developer Platform Button */}
+              {/* 2. Alexandria Odyssey Button -> https://historical-alex.vercel.app/ */}
+              <a
+                href={t.alexandriaOdysseyUrl || 'https://historical-alex.vercel.app/'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative w-full sm:w-1/2 inline-flex items-center justify-center gap-3 px-6 py-3.5 sm:px-7 sm:py-4 rounded-full bg-black/80 hover:bg-neutral-900/90 text-white hover:text-amber-200 font-cinzel text-xs sm:text-sm md:text-base font-black tracking-[0.14em] uppercase border-2 border-amber-400/60 hover:border-amber-300 shadow-[0_10px_35px_rgba(0,0,0,0.8)] hover:shadow-[0_0_40px_rgba(56,189,248,0.45)] hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-xl whitespace-nowrap cursor-pointer"
+              >
+                <LighthouseIcon className="w-6 h-6 sm:w-7 sm:h-7 text-amber-400 group-hover:scale-120 group-hover:rotate-6 transition-all duration-300 drop-shadow-md" />
+                <span>{t.alexandriaOdyssey || 'Alexandria Odyssey'}</span>
+                <ExternalLink className="w-4 h-4 text-amber-400/90 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+              </a>
+            </div>
+
+            {/* Bottom Row: Button 3 (Developer Platform) -> Behind the 2 buttons, size as both together with attractive color & bounce animation */}
             <a
               href={t.developerPlatformUrl || 'https://webalex-ten.vercel.app/'}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-black/75 hover:bg-neutral-900/90 text-white hover:text-amber-200 font-cinzel text-sm sm:text-base md:text-lg font-bold tracking-[0.16em] uppercase border-2 border-amber-400/60 hover:border-amber-300 shadow-[0_10px_35px_rgba(0,0,0,0.8)] hover:shadow-[0_0_40px_rgba(245,158,11,0.45)] hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-xl whitespace-nowrap cursor-pointer"
+              className="group relative w-full inline-flex items-center justify-center gap-3.5 px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 hover:from-blue-500 hover:via-indigo-500 hover:to-amber-400 text-white font-cinzel text-xs sm:text-sm md:text-base font-bold tracking-[0.16em] uppercase border-2 border-amber-300/70 hover:border-white shadow-[0_10px_40px_rgba(59,130,246,0.4)] animate-luxury-bounce hover:scale-[1.02] active:scale-95 transition-all duration-300 backdrop-blur-xl whitespace-nowrap cursor-pointer"
             >
               <img
                 src="/developer-platform-icon.png"
                 alt="Developer Platform"
-                className="w-7 h-7 sm:w-8 sm:h-8 object-contain filter drop-shadow-[0_0_12px_rgba(56,189,248,0.5)] group-hover:scale-115 group-hover:rotate-3 transition-transform duration-300 flex-shrink-0"
+                className="w-6 h-6 sm:w-7 sm:h-7 object-contain filter drop-shadow-[0_0_12px_rgba(255,255,255,0.8)] group-hover:scale-115 group-hover:rotate-6 transition-transform duration-300 flex-shrink-0"
               />
               <span>{t.developerPlatform || 'Developer Platform'}</span>
-              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400/90 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+              <ExternalLink className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-amber-200 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
             </a>
           </div>
         </div>
