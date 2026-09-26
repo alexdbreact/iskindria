@@ -120,6 +120,13 @@ export default function App() {
 
       {/* Floating Top Header: Brand & Extra-Large Video-Masked Title */}
       <header className="pointer-events-none absolute top-0 left-0 right-0 z-30 flex flex-col items-center justify-start pt-4 sm:pt-6 px-4 sm:px-6">
+        {/* Semantic H1 & Meta for Search Engine Crawlers & Screen Readers */}
+        <h1 className="sr-only">
+          {isArabic
+            ? 'إسكندرية | ISKINDRIA - منصة وتجارب الويب التفاعلية ثلاثية الأبعاد | مطور ويب في الإسكندرية'
+            : 'ISKINDRIA - Interactive 3D Web Platform & Senior Web Developer in Alexandria, Egypt'}
+        </h1>
+
         <div className="flex flex-col items-center text-center space-y-1 max-w-6xl w-full">
           {/* Badge */}
           <div className="pointer-events-auto inline-flex items-center gap-2.5 px-5 py-1.5 sm:px-6 sm:py-2 rounded-full glass-pill text-xs sm:text-sm md:text-base tracking-[0.2em] text-amber-200/90 uppercase font-medium shadow-2xl transition-all duration-300 hover:border-amber-400/40">
@@ -137,9 +144,9 @@ export default function App() {
           </div>
 
           {/* Subtitle */}
-          <p className="font-cinzel text-xs sm:text-sm md:text-base tracking-[0.35em] text-amber-100/90 uppercase font-light drop-shadow-md -mt-2 sm:-mt-4">
+          <h2 className="font-cinzel text-xs sm:text-sm md:text-base tracking-[0.35em] text-amber-100/90 uppercase font-light drop-shadow-md -mt-2 sm:-mt-4">
             {t.subtitle}
-          </p>
+          </h2>
         </div>
       </header>
 
