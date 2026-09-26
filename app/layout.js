@@ -37,6 +37,8 @@ export const metadata = {
     "قلعة قايتباي",
     "مكتبة الإسكندرية",
     "كورنيش الإسكندرية",
+    "تصميم منصات ويب بالاسكندرية",
+    
     // English keywords
     "Alexandria",
     "Alex",
@@ -49,7 +51,8 @@ export const metadata = {
     "3D web experience alexandria",
     "Next.js developer alexandria",
     "WebGL developer Egypt",
-    "web development agency alexandria"
+    "web development agency alexandria",
+    "nextjs developer alexandria"
   ],
   referrer: "origin-when-cross-origin",
   creator: "WebAlex",
