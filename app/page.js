@@ -241,7 +241,7 @@ export default function App() {
 
             {/* Bottom Row: Button 3 (Developer Platform) -> Behind the 2 buttons, size as both together with attractive color & bounce animation */}
             <a
-              href={t.developerPlatformUrl || 'https://webalex-ten.vercel.app/'}
+              href={t.developerPlatformUrl || 'https://web.iskindria.com'}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative w-full inline-flex items-center justify-center gap-3.5 px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 hover:from-blue-500 hover:via-indigo-500 hover:to-amber-400 text-white font-cinzel text-xs sm:text-sm md:text-base font-bold tracking-[0.16em] uppercase border-2 border-amber-300/70 hover:border-white shadow-[0_10px_40px_rgba(59,130,246,0.4)] animate-luxury-bounce hover:scale-[1.02] active:scale-95 transition-all duration-300 backdrop-blur-xl whitespace-nowrap cursor-pointer"
